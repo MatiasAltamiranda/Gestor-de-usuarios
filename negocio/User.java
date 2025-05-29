@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class User implements Serializable {
@@ -15,15 +17,29 @@ public class User implements Serializable {
     private int id;
     private String userName;
     private String password;
+    @ManyToOne
+    @JoinColumn (name = "Fk_rol")
+    private Rol unRol;
+    
 
     public User() {
     }
 
-    public User(int id, String userName, String password) {
+    public User(int id, String userName, String password, Rol unRol) {
         this.id = id;
         this.userName = userName;
         this.password = password;
+        this.unRol = unRol;
     }
+
+    public Rol getUnRol() {
+        return unRol;
+    }
+
+    public void setUnRol(Rol unRol) {
+        this.unRol = unRol;
+    }
+
 
     public int getId() {
         return id;
