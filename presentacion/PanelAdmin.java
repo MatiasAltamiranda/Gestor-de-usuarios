@@ -1,23 +1,22 @@
-
 package com.mycompany.login.presentacion;
 
 import com.mycompany.login.negocio.ControladoraNegocio;
 import com.mycompany.login.negocio.User;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class PanelAdmin extends javax.swing.JFrame {
-    
+
     ControladoraNegocio control = null;
     User isUser = null;
-    
-    
+
     public PanelAdmin(ControladoraNegocio control, User isUser) {
         initComponents();
         this.control = control;
         this.isUser = isUser;
-        
+
         tableUsers.setBackground(new java.awt.Color(69, 69, 69));
         tableUsers.setForeground(new java.awt.Color(255, 255, 255));
         tableUsers.getTableHeader().setBackground(new java.awt.Color(37, 37, 37));
@@ -25,7 +24,6 @@ public class PanelAdmin extends javax.swing.JFrame {
         jScrollPane1.getViewport().setBackground(new java.awt.Color(69, 69, 69));
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -84,6 +82,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         btnDeleteUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\iloveimg-resized (1)\\borrar-usuario.png")); // NOI18N
         btnDeleteUser.setText("Borrar Usuario");
         btnDeleteUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(37, 37, 37), 1, true));
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
 
         btnCreateUser.setBackground(new java.awt.Color(1, 135, 71));
         btnCreateUser.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -216,7 +219,7 @@ public class PanelAdmin extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.lblUser.setText(isUser.getUserName());
-         reloadTable();
+        reloadTable();
     }//GEN-LAST:event_formWindowOpened
 
     private void reloadTable() {
@@ -242,8 +245,8 @@ public class PanelAdmin extends javax.swing.JFrame {
 
         }
     }
-    
-    
+
+
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
@@ -253,13 +256,39 @@ public class PanelAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReloadTableActionPerformed
 
     private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
-           CreateUser screenCreate = new CreateUser(control);
-           screenCreate.setVisible(true);
-           screenCreate.setLocationRelativeTo(null);
-           
+        CreateUser screenCreate = new CreateUser(control);
+        screenCreate.setVisible(true);
+        screenCreate.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_btnCreateUserActionPerformed
 
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        if (tableUsers.getRowCount() > 0) {
+            if (tableUsers.getSelectedRow() != -1) {
+                int userId = Integer.parseInt(String.valueOf(tableUsers.getValueAt(tableUsers.getSelectedRow(), 0)));
+                control.deleteUser(userId);
+                mostrarMensaje("Elemento borrado con exito", "info", "Eliminado");
+                reloadTable();
+            } else {
+                mostrarMensaje("No se selecciono un elemento", "error", "Atención");
+            }
 
+        } else {
+            mostrarMensaje("Tabla vacia", "error", "Error al eliminar");
+        }
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
+
+    public void mostrarMensaje(String cuerpo, String tipo, String titulo) {
+        JOptionPane optionPane = new JOptionPane(cuerpo);
+        if (tipo.equals("info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateUser;

@@ -65,5 +65,9 @@ public class ControladoraNegocio {
         
     }
 
+    public void deleteUser(int userId) {
+       controlPersis.deleteUser(userId);
+    }
+
 
 }

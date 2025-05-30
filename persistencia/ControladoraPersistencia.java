@@ -3,7 +3,10 @@ package com.mycompany.login.persistencia;
 
 import com.mycompany.login.negocio.Rol;
 import com.mycompany.login.negocio.User;
+import com.mycompany.login.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ControladoraPersistencia {
@@ -22,4 +25,14 @@ public class ControladoraPersistencia {
     public void createUser(User user) {
         userJpa.create(user);
     }
+
+    public void deleteUser(int userId) {
+        try {
+            userJpa.destroy(userId);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+   
 }
