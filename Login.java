@@ -1,13 +1,13 @@
 
 package com.mycompany.login;
 
-import com.mycompany.login.presentacion.Principal;
+import com.mycompany.login.presentacion.LoginScreen;
 
 
 public class Login {
 
     public static void main(String[] args) {
-        Principal mainScreen = new Principal();
+        LoginScreen mainScreen = new LoginScreen();
         mainScreen.setVisible(true);
         mainScreen.setLocationRelativeTo(null);
     }

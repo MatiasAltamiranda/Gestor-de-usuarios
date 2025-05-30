@@ -1,19 +1,17 @@
-
 package com.mycompany.login.presentacion;
 
 import com.mycompany.login.negocio.ControladoraNegocio;
+import com.mycompany.login.negocio.User;
 
-
-public class Principal extends javax.swing.JFrame {
+public class LoginScreen extends javax.swing.JFrame {
 
     ControladoraNegocio control = null;
-    
-    public Principal() {
+
+    public LoginScreen() {
         initComponents();
-        control = new ControladoraNegocio ();
+        control = new ControladoraNegocio();
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -86,7 +84,7 @@ public class Principal extends javax.swing.JFrame {
 
         lblMensaje.setBackground(new java.awt.Color(204, 204, 204));
         lblMensaje.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblMensaje.setForeground(new java.awt.Color(255, 255, 255));
+        lblMensaje.setForeground(new java.awt.Color(255, 51, 51));
 
         txtPass.setBackground(new java.awt.Color(51, 51, 51));
         txtPass.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -177,14 +175,28 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-      
-       String user = txtUser.getText();
-       String pass = txtPass.getText();
-       String mensaje = control.userValidate(user,pass);
-       lblMensaje.setText(mensaje);
+
+        String user = txtUser.getText();
+        String pass = txtPass.getText();
+        User isUser = control.userValidate(user, pass);
+        if (isUser!=null) {
+            String rol = isUser.getUnRol().getTipoRol();
+            if (rol.equals("admin")) {
+                PanelAdmin pAdmin = new PanelAdmin(control, isUser);
+                pAdmin.setVisible(true);
+                pAdmin.setLocationRelativeTo(null);
+                this.dispose();
+            } else {
+                PanelUser pUser = new PanelUser(control,isUser);
+                pUser.setVisible(true);
+                pUser.setLocationRelativeTo(null);
+                this.dispose();
+            }
+        } else {
+            lblMensaje.setText("Crecendiales incorrectas");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
