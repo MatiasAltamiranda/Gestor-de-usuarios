@@ -91,6 +91,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         btnCreateUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\iloveimg-resized (1)\\agregar-usuario.png")); // NOI18N
         btnCreateUser.setText("Crear Usuario");
         btnCreateUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(37, 37, 37), 1, true));
+        btnCreateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateUserActionPerformed(evt);
+            }
+        });
 
         btnEditUser.setBackground(new java.awt.Color(1, 135, 71));
         btnEditUser.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -246,6 +251,13 @@ public class PanelAdmin extends javax.swing.JFrame {
     private void btnReloadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadTableActionPerformed
         reloadTable();
     }//GEN-LAST:event_btnReloadTableActionPerformed
+
+    private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
+           CreateUser screenCreate = new CreateUser(control);
+           screenCreate.setVisible(true);
+           screenCreate.setLocationRelativeTo(null);
+           
+    }//GEN-LAST:event_btnCreateUserActionPerformed
 
 
 
