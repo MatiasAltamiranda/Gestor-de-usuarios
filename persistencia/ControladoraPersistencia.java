@@ -10,7 +10,7 @@ public class ControladoraPersistencia {
     UserJpaController userJpa = new UserJpaController();
     RolJpaController rolJpa = new RolJpaController();
 
-    public List<User> traerUsuarios() {
+    public List<User> getUsers() {
        return userJpa.findUserEntities();
     }
 }

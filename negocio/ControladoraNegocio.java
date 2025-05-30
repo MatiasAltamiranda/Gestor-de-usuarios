@@ -13,13 +13,17 @@ public class ControladoraNegocio {
 
     public User userValidate(String user, String pass) {
 
-        List<User> userList = controlPersis.traerUsuarios();
+        List<User> userList = controlPersis.getUsers();
 
         for (User usr : userList) {
 
             if (usr.getUserName().equals(user) && usr.getPassword().equals(pass)) return usr;   
         }
         return null;
+    }
+
+    public List<User> getUsers() {
+       return controlPersis.getUsers();
     }
 
 

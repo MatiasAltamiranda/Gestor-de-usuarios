@@ -3,6 +3,8 @@ package com.mycompany.login.presentacion;
 
 import com.mycompany.login.negocio.ControladoraNegocio;
 import com.mycompany.login.negocio.User;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 
 public class PanelAdmin extends javax.swing.JFrame {
@@ -15,6 +17,12 @@ public class PanelAdmin extends javax.swing.JFrame {
         initComponents();
         this.control = control;
         this.isUser = isUser;
+        
+        tableUsers.setBackground(new java.awt.Color(69, 69, 69));
+        tableUsers.setForeground(new java.awt.Color(255, 255, 255));
+        tableUsers.getTableHeader().setBackground(new java.awt.Color(37, 37, 37));
+        tableUsers.getTableHeader().setForeground(new java.awt.Color(1, 135, 71));
+        jScrollPane1.getViewport().setBackground(new java.awt.Color(69, 69, 69));
     }
 
   
@@ -66,6 +74,8 @@ public class PanelAdmin extends javax.swing.JFrame {
 
             }
         ));
+        tableUsers.setSelectionBackground(new java.awt.Color(1, 135, 71));
+        tableUsers.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tableUsers);
 
         btnDeleteUser.setBackground(new java.awt.Color(1, 135, 71));
@@ -95,6 +105,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         btnReloadTable.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\actualizar.png")); // NOI18N
         btnReloadTable.setText("Actualizar Tabla");
         btnReloadTable.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(37, 37, 37), 1, true));
+        btnReloadTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadTableActionPerformed(evt);
+            }
+        });
 
         btnExit.setBackground(new java.awt.Color(37, 37, 37));
         btnExit.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -102,6 +117,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         btnExit.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\salir.png")); // NOI18N
         btnExit.setText("Salir");
         btnExit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 135, 71), 1, true));
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
@@ -191,7 +211,41 @@ public class PanelAdmin extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.lblUser.setText(isUser.getUserName());
+         reloadTable();
     }//GEN-LAST:event_formWindowOpened
+
+    private void reloadTable() {
+        DefaultTableModel tabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        String titulos[] = {"#", "Usuario", "Rol", "Descripcion Rol"};
+        tabla.setColumnIdentifiers(titulos);
+
+        List<User> userList = control.getUsers();
+
+        if (userList != null) {
+            for (User usr : userList) {
+
+                Object[] objeto = {usr.getId(), usr.getUserName(), usr.getUnRol().getTipoRol(), usr.getUnRol().getDescripcion()};
+                tabla.addRow(objeto);
+            }
+            tableUsers.setModel(tabla);
+
+        }
+    }
+    
+    
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnReloadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadTableActionPerformed
+        reloadTable();
+    }//GEN-LAST:event_btnReloadTableActionPerformed
 
 
 

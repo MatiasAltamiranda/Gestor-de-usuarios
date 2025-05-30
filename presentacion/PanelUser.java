@@ -1,24 +1,27 @@
-
 package com.mycompany.login.presentacion;
 
 import com.mycompany.login.negocio.ControladoraNegocio;
 import com.mycompany.login.negocio.User;
-
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class PanelUser extends javax.swing.JFrame {
 
-    
     ControladoraNegocio control = null;
     User isUser = null;
- 
-    public PanelUser(ControladoraNegocio control,User isUser) {
+
+    public PanelUser(ControladoraNegocio control, User isUser) {
         initComponents();
         this.control = control;
         this.isUser = isUser;
+
+        tableUsers.setBackground(new java.awt.Color(69, 69, 69));
+        tableUsers.setForeground(new java.awt.Color(255, 255, 255));
+        tableUsers.getTableHeader().setBackground(new java.awt.Color(37, 37, 37));
+        tableUsers.getTableHeader().setForeground(new java.awt.Color(1, 135, 71));
+        jScrollPane1.getViewport().setBackground(new java.awt.Color(69, 69, 69));
     }
 
- 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,7 +37,7 @@ public class PanelUser extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 51, 51));
+        setBackground(new java.awt.Color(37, 37, 37));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -50,11 +53,13 @@ public class PanelUser extends javax.swing.JFrame {
         jSeparator1.setBackground(new java.awt.Color(1, 135, 71));
         jSeparator1.setForeground(new java.awt.Color(1, 135, 71));
 
+        jScrollPane1.setBackground(new java.awt.Color(37, 37, 37));
         jScrollPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 51), 1, true));
         jScrollPane1.setForeground(new java.awt.Color(51, 51, 51));
 
-        tableUsers.setBackground(new java.awt.Color(51, 51, 51));
-        tableUsers.setForeground(new java.awt.Color(153, 153, 153));
+        tableUsers.setBackground(new java.awt.Color(102, 102, 102));
+        tableUsers.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tableUsers.setForeground(new java.awt.Color(204, 204, 204));
         tableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -66,6 +71,8 @@ public class PanelUser extends javax.swing.JFrame {
 
             }
         ));
+        tableUsers.setSelectionBackground(new java.awt.Color(1, 135, 71));
+        tableUsers.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(tableUsers);
 
         btnReloadTable.setBackground(new java.awt.Color(1, 135, 71));
@@ -74,6 +81,11 @@ public class PanelUser extends javax.swing.JFrame {
         btnReloadTable.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\actualizar.png")); // NOI18N
         btnReloadTable.setText("Actualizar Tabla");
         btnReloadTable.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(37, 37, 37), 1, true));
+        btnReloadTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadTableActionPerformed(evt);
+            }
+        });
 
         btnExit.setBackground(new java.awt.Color(37, 37, 37));
         btnExit.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -81,6 +93,11 @@ public class PanelUser extends javax.swing.JFrame {
         btnExit.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\salir.png")); // NOI18N
         btnExit.setText("Salir");
         btnExit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 135, 71), 1, true));
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
@@ -160,10 +177,42 @@ public class PanelUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       this.lblUser.setText(isUser.getUserName());
+        this.lblUser.setText(isUser.getUserName());
+        reloadTable();
     }//GEN-LAST:event_formWindowOpened
 
- 
+    private void reloadTable() {
+        DefaultTableModel tabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        String titulos[] = {"#", "Usuario", "Rol", "Descripcion Rol"};
+        tabla.setColumnIdentifiers(titulos);
+
+        List<User> userList = control.getUsers();
+
+        if (userList != null) {
+            for (User usr : userList) {
+
+                Object[] objeto = {usr.getId(), usr.getUserName(), usr.getUnRol().getTipoRol(), usr.getUnRol().getDescripcion()};
+                tabla.addRow(objeto);
+            }
+            tableUsers.setModel(tabla);
+
+        }
+    }
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnReloadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadTableActionPerformed
+        reloadTable();
+    }//GEN-LAST:event_btnReloadTableActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
@@ -176,4 +225,5 @@ public class PanelUser extends javax.swing.JFrame {
     private javax.swing.JLabel lblUser;
     private javax.swing.JTable tableUsers;
     // End of variables declaration//GEN-END:variables
+
 }
