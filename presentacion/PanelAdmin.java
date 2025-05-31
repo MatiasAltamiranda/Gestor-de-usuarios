@@ -106,6 +106,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         btnEditUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\Matias Altamiranda\\Downloads\\icono\\IconosForLogin\\iloveimg-resized (1)\\usuario-Editar.png")); // NOI18N
         btnEditUser.setText("Editar Usuario");
         btnEditUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(37, 37, 37), 1, true));
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
 
         btnReloadTable.setBackground(new java.awt.Color(1, 135, 71));
         btnReloadTable.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -277,6 +282,24 @@ public class PanelAdmin extends javax.swing.JFrame {
             mostrarMensaje("Tabla vacia", "error", "Error al eliminar");
         }
     }//GEN-LAST:event_btnDeleteUserActionPerformed
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+       if (tableUsers.getRowCount() > 0) {
+            if (tableUsers.getSelectedRow() != -1) {
+                int userId = Integer.parseInt(String.valueOf(tableUsers.getValueAt(tableUsers.getSelectedRow(), 0)));
+                
+                EditUser screenEdit = new EditUser(control,userId);
+                screenEdit.setVisible(true);
+                screenEdit.setLocationRelativeTo(null);
+               
+            } else {
+                mostrarMensaje("No se selecciono un elemento", "error", "Atención");
+            }
+
+        } else {
+            mostrarMensaje("Tabla vacia", "error", "Error al eliminar");
+        }
+    }//GEN-LAST:event_btnEditUserActionPerformed
 
     public void mostrarMensaje(String cuerpo, String tipo, String titulo) {
         JOptionPane optionPane = new JOptionPane(cuerpo);
